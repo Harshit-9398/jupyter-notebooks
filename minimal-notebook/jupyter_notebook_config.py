@@ -40,8 +40,8 @@ c.HybridContentsManager.manager_classes = {
 }
 
 # Get S3 credentials from environment variables
-aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID")
-aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY")
+aws_access_key_id = os.environ.get("accessKeyID")
+aws_secret_access_key = os.environ.get("secretAccessKey")
 endpoint_url = os.environ.get("S3_ENDPOINT_URL")
 
 # Add datalake connection information
@@ -54,7 +54,7 @@ if (aws_access_key_id and aws_access_key_id!=None): # Make sure we have usable S
                         use_ssl = True if 'https' in endpoint_url else False ) 
     # Enumerate all accessible buckets and create a folder entry in HybridContentsManager
     for bucket in s3.buckets.all():
-        c.HybridContentsManager.manager_classes.update({'datalake_'+bucket.name: S3ContentsManager})
+        c.HybridContentsManager.manager_classes.update({bucket.name: S3ContentsManager})
 
 # Initalize arguments for local filesystem
 c.HybridContentsManager.manager_kwargs = {
@@ -69,7 +69,7 @@ if (aws_access_key_id and aws_access_key_id!=None):
     # We don't have to reinitialize the connection, thanks for previous "for" not being scoped
     # Enumerate all buckets and configure access
     for bucket in s3.buckets.all():
-        c.HybridContentsManager.manager_kwargs.update({'datalake_'+bucket.name: {
+        c.HybridContentsManager.manager_kwargs.update({bucket.name: {
             'access_key_id': aws_access_key_id,
             'secret_access_key': aws_secret_access_key,
             'endpoint_url': endpoint_url,
