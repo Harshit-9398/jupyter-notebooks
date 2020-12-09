@@ -47,7 +47,7 @@ endpoint_url = os.environ.get("S3_ENDPOINT_URL")
 # Add datalake connection information
 if (aws_access_key_id and aws_access_key_id!=None): # Make sure we have usable S3 informations are there before configuring
     # Initialize S3 connection (us-east-1 seems to be needed even when it is not used, in Ceph for example)
-    s3 = boto3.resource('s3','us-east-1',
+    s3 = boto3.resource('s3','us-east-2',
                         endpoint_url=endpoint_url,
                         aws_access_key_id = aws_access_key_id,
                         aws_secret_access_key = aws_secret_access_key,
